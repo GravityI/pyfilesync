@@ -1,4 +1,5 @@
 def get_user_input(source_path, replica_path, synchronization_interval, log_file_path):
+    print(source_path, replica_path, synchronization_interval, log_file_path)
     return source_path, replica_path, synchronization_interval, log_file_path
 
 if __name__ == '__main__':   
