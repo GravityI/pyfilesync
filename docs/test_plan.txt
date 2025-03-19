@@ -1,4 +1,4 @@
-Tests cases:
+Test cases:
 
     - Verify if the CLI is asking for the source and replica directory paths, synchronization interval and log file path and saving them into variables.
     - Verify if the input for the source directory path, replica file path, synchronization interval and log file path are the correct types.
