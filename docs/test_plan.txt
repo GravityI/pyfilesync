@@ -1,0 +1,17 @@
+Tests cases:
+
+    - Verify if the CLI is asking for the source and replica directory paths, synchronization interval and log file path and saving them into variables.
+    - Verify if the input for the source directory path, replica file path, synchronization interval and log file path are the correct types.
+    - Verify if the path variables lead to a valid existing directory in the system.
+    - Verify if the program runs the synchronization module periodically according to the set interval.
+    - Verify if the program is capable of accessing the intended file paths.
+    - Verify if the program is able to read files in the source and replica directories.
+    - Verify if the program is able to write and delete files in the replica and log directories.
+    - Verify if the program is able to identify files with the same name but different contents in the source and replica directories.
+    - Verify if the program is able to identify files that were deleted in the source directory but still exist in the replica directory.
+    - Verify if the program creates files in the replica directory with the same file names as the files in the source directory.
+    - Verify if the program writes file content in the replica directory files according to the content of the files in the source directory.
+    - Verify if the program deletes files in the replica directory if they do not exist in the source directory.
+    - Verify if the program outputs the log to the console.
+    - Verify if the program writes the log in the log file.
+    - Verify if the contents of every file in the replica directory are identical to the ones in the source directory once the synchronization is over.
