@@ -16,8 +16,9 @@ def list_dirs_files(root_path):
 
 def synchronize(source_dir, replica_dir, synchronization_interval=None, log_file_path=None):
     source_dir_path_list, source_file_path_list = list_dirs_files(source_dir)
+    replica_dir_path_list, replica_file_path_list = list_dirs_files(replica_dir)
     
-    #Copy files from the source directory into the replica directory
+    #Copy files/subdirectories from the source directory into the replica directory
     for dir in source_dir_path_list:
         if not os.path.exists(os.path.join(replica_dir, dir)):
             os.makedirs(os.path.join(replica_dir, dir))
@@ -25,6 +26,14 @@ def synchronize(source_dir, replica_dir, synchronization_interval=None, log_file
         with open(os.path.join(source_dir, file), 'r') as source_file:
             with open(os.path.join(replica_dir, file), 'w') as replica_file:
                 replica_file.write(source_file.read())
+    
+    #Delete files/subdirectories from the replica directory if they do not exist in the source directory
+    for dir in replica_dir_path_list:
+        if not os.path.exists(os.path.join(source_dir, dir)):
+            os.remove(os.path.join(replica_dir, dir))
+    for file in replica_file_path_list:
+        if not os.path.exists(os.path.join(source_dir, file)):
+            os.remove(os.path.join(replica_dir, file))
     #sleep(synchronization_interval)
     #return synchronize(source_dir, replica_dir, synchronization_interval, log_file_path)
 
