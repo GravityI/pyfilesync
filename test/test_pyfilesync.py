@@ -1,13 +1,13 @@
 import unittest, os, sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from pyfilesync import get_user_input
+from pyfilesync import get_user_input, synchronize, list_dirs_files
 
 class TestUserInput(unittest.TestCase):
     def setUp(self):
-        self.source_path = "C:\\"
-        self.replica_path = "C:\\"
+        self.source_path = "C:\\Nintendo\\"
+        self.replica_path = "C:\\Nintendo\\"
         self.synchronization_interval = 60
-        self.log_file_path = "C:\\"
+        self.log_file_path = "C:\\Nintendo\\"
 
     #Test if input types are correct
     def test_get_user_input_types(self):
@@ -23,6 +23,28 @@ class TestUserInput(unittest.TestCase):
         self.assertTrue(os.path.exists(os.path.dirname(source_path)))
         self.assertTrue(os.path.exists(os.path.dirname(replica_path)))
         self.assertTrue(os.path.exists(os.path.dirname(log_file_path)))
+
+class TestSynchronization(unittest.TestCase):
+    def setUp(self):
+        self.source_dir = "C:\\testdir\\source\\"
+        self.replica_dir = "C:\\testdir\\replica\\"
+        self.inside_dir = "C:\\testdir\\source\\insideDir\\"
+        if not os.path.exists(self.inside_dir):
+            os.makedirs(self.inside_dir)
+        with open(os.path.join(self.source_dir, "test.txt"), "w") as file:
+            file.write("Hello World")
+        with open(os.path.join(self.inside_dir, "test2.txt"), "w") as file:
+            file.write("Bello Borld")
+    
+    def test_synchronize(self):
+        source_dirs, source_files = list_dirs_files(self.source_dir)
+        synchronize(self.source_dir, self.replica_dir)
+        replica_dirs, replica_files = list_dirs_files(self.replica_dir)
+        for relative_file_path in source_files:
+            with open(os.path.join(self.source_dir, relative_file_path), 'r') as source_file:
+                with open(os.path.join(self.replica_dir, relative_file_path), 'r') as replica_file:
+                    self.assertEqual(source_file.read(), replica_file.read())
+        
 
 if __name__ == '__main__':   
     unittest.main()
