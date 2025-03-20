@@ -7,7 +7,7 @@ class TestUserInput(unittest.TestCase):
         self.source_path = "C:\\testdir"
         self.replica_path = "C:\\testdir"
         self.synchronization_interval = 60
-        self.log_file_path = "C:\\testdi"
+        self.log_file_path = "C:\\testdir"
 
     #Test if input types are correct
     def test_get_user_input_types(self):
