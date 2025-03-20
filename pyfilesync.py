@@ -1,8 +1,8 @@
 import os, filecmp, time
 
-def get_user_input(source_path, replica_path, synchronization_interval, log_file_path):
+def get_user_input(source_path, replica_path, log_file_path, synchronization_interval):
     #print(source_path, replica_path, synchronization_interval, log_file_path)
-    return source_path, replica_path, synchronization_interval, log_file_path
+    return source_path, replica_path, log_file_path, synchronization_interval
 
 def list_dirs_files(root_path):
     dir_path_list = []
@@ -14,7 +14,7 @@ def list_dirs_files(root_path):
             dir_path_list.append(os.path.relpath(os.path.join(root, dir), root_path))
     return dir_path_list, file_path_list
 
-def synchronize(source_dir, replica_dir, synchronization_interval=None, log_file_path=None):
+def synchronize(source_dir, replica_dir, log_file_path=None):
     source_dir_path_list, source_file_path_list = list_dirs_files(source_dir)
     replica_dir_path_list, replica_file_path_list = list_dirs_files(replica_dir)
     
@@ -42,13 +42,13 @@ def synchronize(source_dir, replica_dir, synchronization_interval=None, log_file
         if not os.path.exists(os.path.join(source_dir, file)):
             os.remove(os.path.join(replica_dir, file))
     print("synchronization done")
-    time.sleep(synchronization_interval)
-    return synchronize(source_dir, replica_dir, synchronization_interval, log_file_path)
 
 if __name__ == '__main__':   
     user_input = get_user_input(input("Enter the source directory path: "), 
-                                input("Enter the replica directory path: "), 
-                                int(input("Enter the synchronization interval in seconds: ")), 
-                                input("Enter the log file path: "))
-    time.sleep(user_input[2])
-    synchronize(*user_input)
+                                input("Enter the replica directory path: "),
+                                input("Enter the log file path: "),
+                                int(input("Enter the synchronization interval in seconds: ")))
+    time.sleep(user_input[3])
+    while True:
+        synchronize(*user_input[:3])
+        time.sleep(user_input[3])
