@@ -4,10 +4,10 @@ from pyfilesync import get_user_input, synchronize, list_dirs_files
 
 class TestUserInput(unittest.TestCase):
     def setUp(self):
-        self.source_path = "C:\\Nintendo\\"
-        self.replica_path = "C:\\Nintendo\\"
+        self.source_path = "C:\\testdir"
+        self.replica_path = "C:\\testdir"
         self.synchronization_interval = 60
-        self.log_file_path = "C:\\Nintendo\\"
+        self.log_file_path = "C:\\testdi"
 
     #Test if input types are correct
     def test_get_user_input_types(self):
