@@ -1,4 +1,6 @@
-import os, filecmp, time
+import os, filecmp, time, logging
+
+logger = logging.getLogger(__name__)
 
 def get_user_input(source_path, replica_path, log_file_path, synchronization_interval=0):
     #print(source_path, replica_path, synchronization_interval, log_file_path)
@@ -14,7 +16,8 @@ def list_dirs_files(root_path):
             dir_path_list.append(os.path.relpath(os.path.join(root, dir), root_path))
     return dir_path_list, file_path_list
 
-def synchronize(source_dir, replica_dir, log_file_path=None):
+def synchronize(source_dir, replica_dir):
+    logging.info("Synchronization Started")
     source_dir_path_list, source_file_path_list = list_dirs_files(source_dir)
     replica_dir_path_list, replica_file_path_list = list_dirs_files(replica_dir)
     
@@ -41,14 +44,20 @@ def synchronize(source_dir, replica_dir, log_file_path=None):
     for file in replica_file_path_list:
         if not os.path.exists(os.path.join(source_dir, file)):
             os.remove(os.path.join(replica_dir, file))
-    print("synchronization done")
+    logging.info("Synchronization Ended")
 
-if __name__ == '__main__':   
-    user_input = get_user_input(input("Enter the source directory path: "), 
-                                input("Enter the replica directory path: "),
-                                input("Enter the log file path: "),
-                                int(input("Enter the synchronization interval in seconds: ")))
-    time.sleep(user_input[3])
+def main():
+    source_dir_path, replica_dir_path, log_file_path, interval = get_user_input(input("Enter the source directory path: "), 
+                                                                input("Enter the replica directory path: "),
+                                                                input("Enter the log file path: "),
+                                                                int(input("Enter the synchronization interval in seconds: ")))
+    logging.basicConfig(filename=log_file_path, encoding="utf-8", level=logging.INFO)
+    logging.info("Program Started")
+    time.sleep(interval)
     while True:
-        synchronize(*user_input[:3])
-        time.sleep(user_input[3])
+        synchronize(source_dir_path, replica_dir_path)
+        time.sleep(interval)
+    
+
+if __name__ == '__main__':
+    main()
