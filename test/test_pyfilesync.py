@@ -43,6 +43,8 @@ class TestSynchronization(unittest.TestCase):
         source_dirs, source_files = list_dirs_files(self.source_dir)
         synchronize(self.source_dir, self.replica_dir)
         replica_dirs, replica_files = list_dirs_files(self.replica_dir)
+        with open(os.path.join(self.replica_dir, "test.txt"), "w") as file:
+            file.write("New text that wasn't previously here")
         #Check if file contents are the same after synchronization
         for relative_file_path in source_files:
             with open(os.path.join(self.source_dir, relative_file_path), 'r') as source_file:
@@ -53,7 +55,6 @@ class TestSynchronization(unittest.TestCase):
         source_dirs, source_files = list_dirs_files(self.source_dir)
         synchronize(self.source_dir, self.replica_dir)
         self.assertEqual(list_dirs_files(self.source_dir), list_dirs_files(self.replica_dir))
-        
 
 if __name__ == '__main__':   
     unittest.main()
