@@ -29,12 +29,15 @@ class TestSynchronization(unittest.TestCase):
         self.source_dir = "C:\\testdir\\source\\"
         self.replica_dir = "C:\\testdir\\replica\\"
         self.inside_dir = "C:\\testdir\\source\\insideDir\\"
-        if not os.path.exists(self.inside_dir):
-            os.makedirs(self.inside_dir)
+        self.even_more_inside_dir = "C:\\testdir\\source\\insideDir\\insideDir\\"
+        if not os.path.exists(self.even_more_inside_dir):
+            os.makedirs(self.even_more_inside_dir)
         with open(os.path.join(self.source_dir, "test.txt"), "w") as file:
             file.write("Hello World")
         with open(os.path.join(self.inside_dir, "test2.txt"), "w") as file:
             file.write("Bello Borld")
+        with open(os.path.join(self.even_more_inside_dir, "test3.txt"), "w") as file:
+            file.write("Aello Aorld")
     
     def test_synchronize(self):
         source_dirs, source_files = list_dirs_files(self.source_dir)
