@@ -1,4 +1,4 @@
-import os
+import os, filecmp
 
 def get_user_input(source_path, replica_path, synchronization_interval, log_file_path):
     #print(source_path, replica_path, synchronization_interval, log_file_path)
@@ -24,8 +24,15 @@ def synchronize(source_dir, replica_dir, synchronization_interval=None, log_file
             os.makedirs(os.path.join(replica_dir, dir))
     for file in source_file_path_list:
         with open(os.path.join(source_dir, file), 'r') as source_file:
+            #Check if file exists and 
+            if os.path.isfile(os.path.join(replica_dir, file)):
+                with open(os.path.join(replica_dir, file), 'r') as replica_file:
+                        if not filecmp.cmp(os.path.join(source_dir, file), os.path.join(replica_dir, file), shallow=False):
+                            pass
+                            #print(replica_file.read())
             with open(os.path.join(replica_dir, file), 'w') as replica_file:
                 replica_file.write(source_file.read())
+                
     
     #Delete files/subdirectories from the replica directory if they do not exist in the source directory
     for dir in replica_dir_path_list:
