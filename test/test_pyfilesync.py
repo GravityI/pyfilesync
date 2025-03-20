@@ -6,20 +6,20 @@ class TestUserInput(unittest.TestCase):
     def setUp(self):
         self.source_path = "C:\\testdir"
         self.replica_path = "C:\\testdir"
-        self.synchronization_interval = 60
         self.log_file_path = "C:\\testdir"
+        self.synchronization_interval = 1
 
     #Test if input types are correct
     def test_get_user_input_types(self):
-        source_path, replica_path, synchronization_interval, log_file_path = get_user_input(self.source_path, self.replica_path, self.synchronization_interval, self.log_file_path)
+        source_path, replica_path, log_file_path, synchronization_interval = get_user_input(self.source_path, self.replica_path, self.log_file_path, self.synchronization_interval)
         self.assertIsInstance(source_path, str)
         self.assertIsInstance(replica_path, str)
-        self.assertIsInstance(synchronization_interval, int)
         self.assertIsInstance(log_file_path, str)
+        self.assertIsInstance(synchronization_interval, int)
     
     #Test if input paths are valid
     def test_get_user_input_paths(self):
-        source_path, replica_path, synchronization_interval, log_file_path = get_user_input(self.source_path, self.replica_path, self.synchronization_interval, self.log_file_path)
+        source_path, replica_path, log_file_path = get_user_input(self.source_path, self.replica_path, self.log_file_path)
         self.assertTrue(os.path.exists(os.path.dirname(source_path)))
         self.assertTrue(os.path.exists(os.path.dirname(replica_path)))
         self.assertTrue(os.path.exists(os.path.dirname(log_file_path)))
