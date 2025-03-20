@@ -1,4 +1,4 @@
-import os, filecmp
+import os, filecmp, time
 
 def get_user_input(source_path, replica_path, synchronization_interval, log_file_path):
     #print(source_path, replica_path, synchronization_interval, log_file_path)
@@ -41,17 +41,14 @@ def synchronize(source_dir, replica_dir, synchronization_interval=None, log_file
     for file in replica_file_path_list:
         if not os.path.exists(os.path.join(source_dir, file)):
             os.remove(os.path.join(replica_dir, file))
-    #sleep(synchronization_interval)
-    #return synchronize(source_dir, replica_dir, synchronization_interval, log_file_path)
+    print("synchronization done")
+    time.sleep(synchronization_interval)
+    return synchronize(source_dir, replica_dir, synchronization_interval, log_file_path)
 
 if __name__ == '__main__':   
-    get_user_input(input("Enter the source directory path: "), 
-                   input("Enter the replica directory path: "), 
-                   int(input("Enter the synchronization interval in seconds: ")), 
-                   input("Enter the log file path: "))
-    #sleep(synchronization_interval)
-    
-    '''
-    with open("C:\\Nintendo\\test.txt", "r") as file:
-        print(file.read())
-    '''
+    user_input = get_user_input(input("Enter the source directory path: "), 
+                                input("Enter the replica directory path: "), 
+                                int(input("Enter the synchronization interval in seconds: ")), 
+                                input("Enter the log file path: "))
+    time.sleep(user_input[2])
+    synchronize(*user_input)
