@@ -1,6 +1,6 @@
 import os, filecmp, time
 
-def get_user_input(source_path, replica_path, log_file_path, synchronization_interval):
+def get_user_input(source_path, replica_path, log_file_path, synchronization_interval=0):
     #print(source_path, replica_path, synchronization_interval, log_file_path)
     return source_path, replica_path, log_file_path, synchronization_interval
 
