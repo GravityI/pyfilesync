@@ -43,10 +43,16 @@ class TestSynchronization(unittest.TestCase):
         source_dirs, source_files = list_dirs_files(self.source_dir)
         synchronize(self.source_dir, self.replica_dir)
         replica_dirs, replica_files = list_dirs_files(self.replica_dir)
+        #Check if file contents are the same after synchronization
         for relative_file_path in source_files:
             with open(os.path.join(self.source_dir, relative_file_path), 'r') as source_file:
                 with open(os.path.join(self.replica_dir, relative_file_path), 'r') as replica_file:
                     self.assertEqual(source_file.read(), replica_file.read())
+        #Check if synchronization also removes files from replica if they are removed from source
+        os.remove(os.path.join(self.inside_dir, "test2.txt"))
+        source_dirs, source_files = list_dirs_files(self.source_dir)
+        synchronize(self.source_dir, self.replica_dir)
+        self.assertEqual(list_dirs_files(self.source_dir), list_dirs_files(self.replica_dir))
         
 
 if __name__ == '__main__':   
