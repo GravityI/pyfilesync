@@ -1,10 +1,6 @@
-import os, filecmp, time, logging
+import os, filecmp, time, logging, sys
 
 logger = logging.getLogger(__name__)
-
-def get_user_input(source_path, replica_path, log_file_path, synchronization_interval=0):
-    #print(source_path, replica_path, synchronization_interval, log_file_path)
-    return source_path, replica_path, log_file_path, synchronization_interval
 
 def list_dirs_files(root_path):
     dir_path_list = []
@@ -47,10 +43,8 @@ def synchronize(source_dir, replica_dir):
     logging.info("Synchronization Ended")
 
 def main():
-    source_dir_path, replica_dir_path, log_file_path, interval = get_user_input(input("Enter the source directory path: "), 
-                                                                input("Enter the replica directory path: "),
-                                                                input("Enter the log file path: "),
-                                                                int(input("Enter the synchronization interval in seconds: ")))
+    source_dir_path, replica_dir_path, log_file_path, interval = sys.argv[1:]
+    interval = int(interval)
     logging.basicConfig(filename=log_file_path, encoding="utf-8", level=logging.INFO)
     logging.info("Program Started")
     time.sleep(interval)
