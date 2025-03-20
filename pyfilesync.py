@@ -30,7 +30,7 @@ def synchronize(source_dir, replica_dir):
                         if not filecmp.cmp(os.path.join(source_dir, file), os.path.join(replica_dir, file), shallow=False):
                             with open(os.path.join(replica_dir, file), 'w') as replica_file:
                                 replica_file.write(source_file.read())
-                                logging.info("Edited file" + os.path.join(replica_dir, file))
+                                logging.info("Modified file" + os.path.join(replica_dir, file))
             else:
                 with open(os.path.join(replica_dir, file), 'w') as replica_file:
                     replica_file.write(source_file.read())
