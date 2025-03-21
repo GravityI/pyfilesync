@@ -18,9 +18,8 @@ class TestSynchronization(unittest.TestCase):
             file.write("Aello Aorld")
     
     def test_synchronize(self):
-        source_dirs, source_files = list_dirs_files(self.source_dir)
+        source_files = list_dirs_files(self.source_dir)[1]
         synchronize(self.source_dir, self.replica_dir)
-        replica_dirs, replica_files = list_dirs_files(self.replica_dir)
         with open(os.path.join(self.replica_dir, "test.txt"), "w") as file:
             file.write("New text that wasn't previously here")
         synchronize(self.source_dir, self.replica_dir)
@@ -31,7 +30,7 @@ class TestSynchronization(unittest.TestCase):
                     self.assertEqual(source_file.read(), replica_file.read())
         #Check if synchronization also removes files from replica if they are removed from source
         os.remove(os.path.join(self.inside_dir, "test2.txt"))
-        source_dirs, source_files = list_dirs_files(self.source_dir)
+        source_files = list_dirs_files(self.source_dir)[1]
         synchronize(self.source_dir, self.replica_dir)
         self.assertEqual(list_dirs_files(self.source_dir), list_dirs_files(self.replica_dir))
 
