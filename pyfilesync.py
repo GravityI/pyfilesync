@@ -14,7 +14,7 @@ def list_dirs_files(root_path):
 
 def synchronize(source_dir, replica_dir):
     logging.info("Synchronization Started")
-    
+
     source_dir_path_list, source_file_path_list = list_dirs_files(source_dir)
     replica_dir_path_list, replica_file_path_list = list_dirs_files(replica_dir)
 
@@ -28,11 +28,11 @@ def synchronize(source_dir, replica_dir):
             #Check if file exists, compare checksums and overwrite replica file with the source file's contents if different
             if os.path.isfile(os.path.join(replica_dir, file)):
                 with open(os.path.join(replica_dir, file), 'rb') as replica_file:
-                    if hashlib.file_digest(source_file, "md5").hexdigest() != hashlib.file_digest(replica_file, "md5").hexdigest():
+                    if (hashlib.file_digest(source_file, "md5").hexdigest() != hashlib.file_digest(replica_file, "md5").hexdigest()):
                         shutil.copy2(os.path.join(source_dir, file), os.path.join(replica_dir, file))
-                        while hashlib.file_digest(source_file, "md5").hexdigest() != hashlib.file_digest(replica_file, "md5").hexdigest():
+                        while (hashlib.file_digest(source_file, "md5").hexdigest() != hashlib.file_digest(replica_file, "md5").hexdigest()):
                             shutil.copy2(os.path.join(source_dir, file), os.path.join(replica_dir, file))
-                            if hashlib.file_digest(source_file, "md5").hexdigest() != hashlib.file_digest(replica_file, "md5").hexdigest():
+                            if (hashlib.file_digest(source_file, "md5").hexdigest() != hashlib.file_digest(replica_file, "md5").hexdigest()):
                                 logging.info("Error in checksum, retrying copy operation")
                         logging.info("Modified file " + os.path.join(replica_dir, file))
             else:
